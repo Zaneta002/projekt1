@@ -8,6 +8,7 @@ Created on Mon Apr 24 21:46:34 2023
 import math
 from math import *
 import numpy as np
+import argparse
 
 
 class Transformacje():
@@ -219,5 +220,47 @@ class Transformacje():
         X_1992 = (Xgk * 0.9993) - 5300000
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
+    
+    
+ #===============================================
+# próbuje tu tą biblioteke arparse czy cos   
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--nazwa_opcji', type=int, help='Opis opcji')
+    parser.add_argument('nazwa_argumentu', type=str, help='Opis argumentu')
+    args = parser.parse_args()
+    print(args.nazwa_opcji)
+    print(args.nazwa_argumentu)
+    
+    
+    # PRZYKŁADYY !!!
+    #1
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--liczba', type=int, help='Liczba całkowita')
+    parser.add_argument('tekst', type=str, help='Tekst do wyświetlenia')
+    args = parser.parse_args()
+
+    if args.liczba:
+        print(f'Podana liczba to: {args.liczba}')
+    print(f'Podany tekst to: {args.tekst}')
+     
+    #2
+    parser = argparse.ArgumentParser()
+    parser.add_argument('x', type=int, help='współrzędna x punktu')
+    parser.add_argument('y', type=int, help='współrzędna y punktu')
+ 
+    args = parser.parse_args()
+
+    print(f'Współrzędne punktu to ({args.x}, {args.y})')
 
 
+    #3
+    def funkcja(x, y):
+        # tutaj umieść kod funkcji, która używa wartości x i y
+
+     parser = argparse.ArgumentParser()
+     parser.add_argument('x', type=int, help='współrzędna x punktu')
+     parser.add_argument('y', type=int, help='współrzędna y punktu')
+     args = parser.parse_args()
+
+     funkcja(args.x, args.y)
