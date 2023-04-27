@@ -39,13 +39,14 @@ class Transformacje():
 
     
     
-    def hirvonen(self, X, Y, Z, output = 'dec_degree'):
+    def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
         """
         Algorytm Hirvonena 
         Funkcja przelicza współrzędne ortokartezjańskie (XYZ) na współrzędne geodezyjne (długość,
         szerokość i wysokość elipsoidalna) - (phi, lambda, h). Jest to proces iteracyjny. 
         W wyniku 3-4-krotneej iteracji wyznaczenia współrzędnej phi można przeliczyć współrzędne z dokładnoscią ok 1 cm.     
-        Dane:
+        
+        Parametry:
         ----------
         X, Y, Z : FLOAT
              współrzędne w układzie ortokartezjańskim, 
@@ -65,7 +66,7 @@ class Transformacje():
         
         """
         p = np.sqrt(X**2 + Y**2)        #promień równoleżnika 
-        f = np.arctan(Z/(p*(1 - e2)))     #przybliżona wartosc fi
+        f = np.arctan(Z/(p*(1 - self.e2)))     #przybliżona wartosc fi
         while True:
             N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)
             h = (p/np.cos(f)) - N
@@ -74,7 +75,9 @@ class Transformacje():
             if abs(fpop - f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
-        
+   
+    
+  #### o tu co z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
         def dms(x):
             sig = ''
             if x < 0:
@@ -94,7 +97,21 @@ class Transformacje():
             return f"{f[0]:02d}:{f[1]:02d}:{f[2]:.2f}", f"{l[0]:02d}:{l[1]:02d}:{l[2]:.2f}", f"{h:.3f}"
         else:
             raise NotImplementedError(f"{output} - jednostka wyjsciowa nie została zdefiniowana")
-            
+    
+if __name__ == "__main__":
+    # utworzenie obiektu
+    tran = Transformacje(elipsoida = "WGS84")
+    # dane XYZ geocentryczne
+    X = 3664940.500; Y = 1409153.590; Z = 5009571.170
+    f, l, h = tran.xyz2flh(X, Y, Z)
+    print(f, l, h)
+    # phi, lam, h = geo.xyz2plh2(X, Y, Z)
+    # print(phi, lam, h)
+                    
+  
+    
+  
+    
             
 #==========================================================================================================    
     
@@ -118,8 +135,6 @@ class Transformacje():
             
         Z: TYPE
             [metry]
-           
-        output 
             
         """
         N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)   #promień krzywizny w I wertykale
@@ -133,22 +148,37 @@ class Transformacje():
         
 # XYZ2neu to nie wiem czy git jest   
     
-    def XYZ2neu(self, X, Y, Z, f, l):
-        """
-        DOKUMEN
-        
-        """
+    def xyz2neu(self, X, Y, Z, f, l):
+       """
+       Funkcja odwrotna do algorytmu Hirvonena. Przelicza współrzędne geodezyjne (phi, lambda, h) na 
+       współrzędne ortokartezjańskie (XYZ).
+       Dane:
+       ----------
+       f, l, h : FLOAT
+            współrzędne w układzie geodezyjnym
 
-        dX = np.array([X, Y, Z])
-        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
+       Zwraca:
+       -------
+       X : TYPE
+           [metry]
+     
+       Y : TYPE
+           [metry]
+           
+       Z: TYPE
+           [metry]
+           
+       """
+       dX = np.array([X, Y, Z])
+       R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                      [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                      [np.cos(f), 0, np.sin(f)]])
-        dneu = R.T @ dX
-        s = np.sqrt(dneu @ dneu)
-        alfa = np.arctan2(dneu[1], dneu[0])
-        z = np.arccos(dneu[2]/s)
-        return (s, alfa, z)
-    
+       dneu = R.T @ dX
+       s = np.sqrt(dneu @ dneu)
+       alfa = np.arctan2(dneu[1], dneu[0])
+       z = np.arccos(dneu[2]/s)
+       return (s, alfa, z)
+
 # inna wersja luknij Madzia
    
     def xyz_to_neu(self, X, Y, Z, f, l):
@@ -167,11 +197,45 @@ class Transformacje():
  #==================================================================================================   
  
 
-    def fl_to_uk2000(self, f, l, L0, n):  #L0 - południk0 (15,18,21,24); n - strefa(5,6,7,8); nie wiem jak to ustawić
+    def fl_to_uk2000(self, f, l):  
         """
-        DOKUM
+        Funkcja przelicza współrzędne geodezyjne elipsoidalne (fi,lambda) na współrzędne płaskie (X,Y) w układzie PL-2000.
         
+        Układ Pl_2000 powstał w wyniku zastosowania odwzorowania Gaussa-Krügera dla elipsoidy GRS'80 w czterech 
+        trzystopniowych strefach o południkach osiowych 15°E, 18°E, 21°E i 24°E. 
+        Strefy oznaczone są kolejno numerami: 5,6,7,8.                                             
+        Skala długości odwzorowania na południkach osiowych wynosi m0 = 0,999923.
+        
+        Parametry:
+        ----------
+        f, l : FLOAT
+             współrzędne geodezyjne elipsoidalne
+
+        Zwraca:
+        -------
+        X_2000 : TYPE
+                    [metry]
+      
+        Y_2000 : TYPE
+                   [metry]
+                   
         """
+        
+        L0 = 0
+        n = 0
+        if l > radians(13.5) and l < radians(16.5):
+            L0 = L0 + radians(15)
+            n = n + 5
+        if l > radians(16.5) and l < radians(19.5): 
+            L0 = L0 + radians(18)
+            n = n + 6
+        if l > radians(19.5) and l < radians(22.5): 
+            L0 = L0 + radians(21)
+            n = n + 7
+        if l > radians(22.5) and l < radians(25.5): 
+            L0 = L0 + radians(24)
+            n = n + 8           
+        
         b2 = (self.a**2) * (1 - self.e2)
         e22 = ((self.a**2) - b2) / b2
         dl = l - L0
@@ -196,14 +260,33 @@ class Transformacje():
 #===================================================================================================================
     
     
-    def fl_to_uk1992(self, f, l, L0):  #nie wiem jak ustawić zeby L0 było zawsze 19*pi/180
+    def fl_to_uk1992(self, f, l):  
         """
-        DOKUM
+        Funkcja przelicza współrzędne geodezyjne elipsoidalne (fi,lambda) na współrzędne płaskie (X,Y) w układzie PL-1992.
         
+        Układ Pl-1992 jest oparty na odwzorowaniu Gaussa-Krügera dla elipsoidy GRS'80 w jednej dziesięciostopniowej 
+        strefie. Początkiem układu jest punkt przecięcia południka zerowego 19°E z obrazem równika. Południk zerowy
+        odwzorowuje się na linię prostą w skali m0 = 0,9993.
+             
+        Parametry:
+        ----------
+        f, l : FLOAT
+             współrzędne geodezyjne elipsoidalne
+
+        Zwraca:
+        -------
+        X_1992 : TYPE
+                    [metry]
+      
+        Y_1992 : TYPE
+                    [metry]
+            
         """
+        L0_92 = 19*pi/180
+        
         b2 = (self.a**2) * (1 - self.e2)
         e22 = ((self.a**2) - b2) / b2
-        dl = l - L0
+        dl = l - L0_92
         t = tan(f)
         eta2 = e22 * ((cos(f))**2)
         N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)
@@ -222,6 +305,13 @@ class Transformacje():
         return(X_1992, Y_1992)
     
     
+    
+    
+    
+    
+
+    
+    
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
     
@@ -231,7 +321,7 @@ class Transformacje():
     args = parser.parse_args()
     print(args.nazwa_opcji)
     print(args.nazwa_argumentu)
-    
+
     
     # PRZYKŁADYY !!!
     #1
