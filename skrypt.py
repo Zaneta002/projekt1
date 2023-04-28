@@ -36,8 +36,7 @@ class Transformacje():
         self.e = np.sqrt(2 * self.flat - self.flat ** 2)
         self.e2 = (2 * self.flat - self.flat ** 2)
             
-
-    
+        
     
     def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
         """
@@ -76,7 +75,6 @@ class Transformacje():
                 break
         l = np.arctan2(Y,X)
    
-    
   #### o tu co z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
         def dms(x):
             sig = ''
@@ -98,25 +96,9 @@ class Transformacje():
         else:
             raise NotImplementedError(f"{output} - jednostka wyjsciowa nie została zdefiniowana")
     
-if __name__ == "__main__":
-    # utworzenie obiektu
-    tran = Transformacje(elipsoida = "WGS84")
-    # dane XYZ geocentryczne
-    X = 3664940.500; Y = 1409153.590; Z = 5009571.170
-    f, l, h = tran.xyz2flh(X, Y, Z)
-    print(f, l, h)
-    # phi, lam, h = geo.xyz2plh2(X, Y, Z)
-    # print(phi, lam, h)
                     
-  
     
-  
-    
-            
-#==========================================================================================================    
-    
-    
-    def flh2XYZ(self, f, l, h, output = 'metry'):
+    def flh2xyz(self, f, l, h, output = 'metry'):
         """
         Funkcja odwrotna do algorytmu Hirvonena. Przelicza współrzędne geodezyjne (phi, lambda, h) na 
         współrzędne ortokartezjańskie (XYZ).
@@ -142,9 +124,7 @@ if __name__ == "__main__":
         Yk = (N + h) * np.cos(f )* np.sin(l)
         Zk = (N * (1 - self.e2) +h) * np.sin(f)
         return(Xk, Yk, Zk)
-    
-   
-#=====================================================================================================    
+ 
         
 # XYZ2neu to nie wiem czy git jest   
     
@@ -193,9 +173,7 @@ if __name__ == "__main__":
         U = cos(f_g) * cos(l_g) * X + cos(f_g) * sin(l_g) * Y + sin(f_g) * Z - R
         return (N, E, U)
     
- 
- #==================================================================================================   
- 
+    
 
     def fl_to_uk2000(self, f, l):  
         """
@@ -220,6 +198,8 @@ if __name__ == "__main__":
                    [metry]
                    
         """
+        f = radians(f)
+        l = radians(l)
         
         L0 = 0
         n = 0
@@ -256,8 +236,6 @@ if __name__ == "__main__":
         Y_2000 = Ygk * 0.999923 + (n*1000000) + 500000
         return(X_2000, Y_2000)
 
-
-#===================================================================================================================
     
     
     def fl_to_uk1992(self, f, l):  
@@ -283,6 +261,8 @@ if __name__ == "__main__":
             
         """
         L0_92 = 19*pi/180
+        f = radians(f)
+        l = radians(l)
         
         b2 = (self.a**2) * (1 - self.e2)
         e22 = ((self.a**2) - b2) / b2
@@ -303,9 +283,50 @@ if __name__ == "__main__":
         X_1992 = (Xgk * 0.9993) - 5300000
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
+
+
+
+
+if __name__ == "__main__":
+    #1
+    tr1 = Transformacje(elipsoida = "WGS84")
+    # dane XYZ geocentryczne
+    X = 3664940.500; Y = 1409153.590; Z = 5009571.170
+    f, l, h = tr1.xyz2flh(X, Y, Z)
+    print(f, l, h)
+     
+    #2
+    tr2 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279; h = 141.3986623911
+    f, l, h = tr2.flh2xyz(f,l,h)
+    print(X,Y,Z)
     
+    #3
+ #   tr3 = Transformacje(elipsoida = "WGS84")
+ #  # dane flh
+ #  f = 52.0972722; l = 21.0315333279; h = 141.3986623911
+ #  f, l, h = tr3.xyz2neu(f,l,h)
+ #  print(X,Y,Z)
     
+    #4
+    tr4 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279
+    X_2000,Y_2000 = tr4.fl_to_uk2000(f,l)
+    print(X_2000,Y_2000)
     
+    #5
+    tr5 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279
+    X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
+    print(X_1992,Y_1992)
+  
+    
+  
+    
+
     
     
     
