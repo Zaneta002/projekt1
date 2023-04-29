@@ -39,6 +39,20 @@ class Transformacje():
             
         
     
+
+    parser = argparse.ArgumentParser(description='Opis programu')
+    parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
+                        help='nazwa elipsoidy (wybierz spośród GRS80, WGS84 lub Krasowskiego)')
+    parser.add_argument('--X', type=float, required=True, help='współrzędna X')
+    parser.add_argument('--Y', type=float, required=True, help='współrzędna Y')
+    parser.add_argument('--Z', type=float, required=True, help='współrzędna Z')
+    parser.add_argument('--output', type=str, default='dec_degree', choices=['dec_degree', 'dms'],
+                        help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
+    args = parser.parse_args()
+# przykład korzystania z arg -- python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree 
+# Tutaj umieść kod wykorzystujący argumenty
+
+
     def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
         """
         Algorytm Hirvonena 
@@ -368,4 +382,4 @@ with open('wsp_inp.txt', 'r') as f:
         Z.append(z)
     transformacje_plik(X, Y, Z)
 
-        
+       
