@@ -10,9 +10,7 @@ from math import *
 import numpy as np
 import argparse
 
-###### w tym przykładzie to było zdefiniowane jako objekt wiec dodałam ale nw czy git
 o = object()
-
 
 class Transformacje():
     
@@ -77,19 +75,7 @@ class Transformacje():
             if abs(fpop - f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
-      
-  #### o tu cos z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
- # tak analogicznie do tego co dał w przykładzie - dodałam funkcje deg2dms i  te self w przeliczaniu stopni na stopnie, minuty i sekundy jak cos
-        def dms(x):
-            sig = ''
-            if x < 0:
-                sig = '-'
-                x = abs(x)  
-            x = x * 180/pi
-            d = int(x)
-            m = int((x-d) * 60)
-            s = (x - d - m/60) * 3600
-            return(sig,"%3d %2d %7.5f" %(d,m,s))
+    
         def deg2dms(degrees):
             # przelicza stopnie na stopnie, minuty i sekundy
             d = int(degrees)
@@ -174,21 +160,6 @@ class Transformacje():
        alfa = np.arctan2(dneu[1], dneu[0])
        z = np.arccos(dneu[2]/s)
        return (s, alfa, z)
-
-# inna wersja luknij Madzia
-   
-    def xyz_to_neu(self, X, Y, Z, f, l):
-        f = radians(f)
-        l = radians(l)
-        R = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)
-        r = sqrt(X**2 + Y**2 + Z**2)
-        f_g = asin(Z / r)    #geocentryczne fi i lambda punktu XYZ
-        l_g = atan2(Y, X)
-        N = -sin(f_g) * cos(l_g) * X - sin(f_g) * sin(l_g) * Y + cos(f_g) * Z
-        E = -sin(l) * X + cos(l) * Y
-        U = cos(f_g) * cos(l_g) * X + cos(f_g) * sin(l_g) * Y + sin(f_g) * Z - R
-        return (N, E, U)
-    
     
 
     def fl_to_uk2000(self, f, l):  
@@ -253,7 +224,6 @@ class Transformacje():
         return(X_2000, Y_2000)
 
     
-    
     def fl_to_uk1992(self, f, l):  
         """
         Funkcja przelicza współrzędne geodezyjne elipsoidalne (fi,lambda) na współrzędne płaskie (X,Y) w układzie PL-1992.
@@ -301,8 +271,6 @@ class Transformacje():
         return(X_1992, Y_1992)
 
 
-
-
 if __name__ == "__main__":
     #1
     tr1 = Transformacje(elipsoida = "WGS84")
@@ -341,7 +309,7 @@ if __name__ == "__main__":
   
 
     
-"""  
+"""
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
 =======
@@ -355,34 +323,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
+"""
 
-    
-
-####========================================================
-
-# funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
-
-
-# Nie wiem czy ona działa bo sie nic nie dzieje(nie ma nawet błędu) jak ją wywoluje i nw dlaczego...
-    def przelicz_dane_plik(input_file, output_file):
-        
-#       Funkcja ta przyjmuje dwa argumenty: input_file to nazwa pliku wejściowego, a output_file to nazwa pliku wynikowego. 
-#       Funkcja korzysta z obiektu Transformacje utworzonego wcześniej i przelicza współrzędne geocentryczne dla każdej linii z pliku wejściowego.
-        
-        t = Transformacje()
-        with open(input_file, 'r') as f:
-            lines = f.readlines()
-        with open(output_file, 'w') as f:
-            for line in lines:
-                if line.startswith('#'):
-                    continue
-                x, y, z = [float(x.strip()) for x in line.split(',')]
-                f.write(f"{t.xyz2flh(x, y, z)}\n")
-
-# PRZYKLAD UZYCIA: Po uruchomieniu funkcji przelicz_dane_plik("wsp_inp.txt", "wyniki.txt") zostanie stworzony plik 'wyniki.txt' z wynikami obliczeń dla danych z pliku 'wsp_inp.txt'.
-
-WYNIKI = przelicz_dane_plik("wsp_inp.txt", "wyniki.txt")
-"""        
 
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
@@ -401,6 +343,7 @@ def transformacje_plik(X, Y, Z):
         for x, y, z in zip(X, Y, Z):
             s, alfa, z = trans.xyz2neu(x, y, z, f, l)
             wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {s:.10f}, {alfa:.10f}, {z:.3f}\n')
+        
 
 with open('wsp_inp.txt', 'r') as f:
     next(f)  # pomijamy nagłówek
