@@ -11,7 +11,6 @@ import numpy as np
 import argparse
 
 
-
 class Transformacje():
     
     def __init__(self, elipsoida: str ='GRS80'):
@@ -75,10 +74,9 @@ class Transformacje():
             if abs(fpop - f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
-
-  #### o tu co z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
-        
-        
+      
+  #### o tu cos z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
+      
         if output == "dec_degree":
             return degrees(f), degrees(l), h 
         elif output == "dms":
@@ -281,7 +279,8 @@ class Transformacje():
         X_1992 = (Xgk * 0.9993) - 5300000
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
-    
+
+
 
 
 if __name__ == "__main__":
@@ -290,14 +289,14 @@ if __name__ == "__main__":
     # dane XYZ geocentryczne
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     f, l, h = tr1.xyz2flh(X, Y, Z)
-    print(f, l, h)
+    print('f = '"%7.5f" % f, 'l = ' "%7.5f" % l, 'h = '"%7.5f" % h)
      
     #2
     tr2 = Transformacje(elipsoida = "WGS84")
     # dane flh
     f = 52.0972722; l = 21.0315333279; h = 141.3986623911
-    f, l, h = tr2.flh2xyz(f,l,h)
-    print(X,Y,Z)
+    X, Y, Z = tr2.flh2xyz(f,l,h)
+    print("%11.5f" % X, "%11.5f" % Y, "%11.5f" % Z)
     
     #3
     tr3 = Transformacje(elipsoida = "WGS84")
@@ -311,7 +310,7 @@ if __name__ == "__main__":
     # dane flh
     f = 52.0972722; l = 21.0315333279
     X_2000,Y_2000 = tr4.fl_to_uk2000(f,l)
-    print(X_2000,Y_2000)
+    print("%11.5f" % X_2000, "%11.5f" % Y_2000)
     
     #5
     tr5 = Transformacje(elipsoida = "WGS84")
@@ -320,14 +319,6 @@ if __name__ == "__main__":
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print("%11.5f" % X_1992, "%11.5f" % Y_1992)
   
-    
-  
-    
-
-    
-    
-    
-
     
     
  #===============================================
@@ -340,3 +331,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
+    
+
+    
+    
+    
+    
+
+
+
+    
+
+
+    
