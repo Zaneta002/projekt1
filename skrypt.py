@@ -339,16 +339,15 @@ if __name__ == "__main__":
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print("%11.5f" % X_1992, "%11.5f" % Y_1992)
   
-<<<<<<< HEAD
+
     
 """  
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
 =======
-    """
+    
 # próbuje tu tą biblioteke arparse czy cos   
     
->>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
     parser = argparse.ArgumentParser()
     parser.add_argument('x', type = float, help ='współrzędna x punktu')
     parser.add_argument('y', type = float, help ='współrzędna y punktu')
@@ -356,19 +355,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
-<<<<<<< HEAD
-"""
 
-=======
-    """
     
->>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
-####========================================================
-"""
-# funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
-<<<<<<< HEAD
 
-=======
+####========================================================
+
+# funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
+
+
 # Nie wiem czy ona działa bo sie nic nie dzieje(nie ma nawet błędu) jak ją wywoluje i nw dlaczego...
     def przelicz_dane_plik(input_file, output_file):
         
@@ -390,7 +384,6 @@ if __name__ == "__main__":
 WYNIKI = przelicz_dane_plik("wsp_inp.txt", "wyniki.txt")
 """        
 
->>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
     with open('wyniki.txt', 'w') as wyniki:
@@ -401,6 +394,13 @@ def transformacje_plik(X, Y, Z):
         for x, y, z in zip(X, Y, Z):
             f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
             wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
+        wyniki.write('Wyniki transformacji współrzędnych ECEF na NEU\n\n')
+        wyniki.write('Nazwa elipsoidy: GRS80\n')
+        wyniki.write('Metoda transformacji: NEU\n\n')
+        wyniki.write('Współrzędne NEU [m]:\nX[m]         Y[m]        Z[m]\n')
+        for x, y, z in zip(X, Y, Z):
+            s, alfa, z = trans.xyz2neu(x, y, z, f, l)
+            wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {s:.10f}, {alfa:.10f}, {z:.3f}\n')
 
 with open('wsp_inp.txt', 'r') as f:
     next(f)  # pomijamy nagłówek
