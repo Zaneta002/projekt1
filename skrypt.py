@@ -11,6 +11,7 @@ import numpy as np
 import argparse
 
 
+
 class Transformacje():
     
     def __init__(self, elipsoida: str ='GRS80'):
@@ -74,24 +75,15 @@ class Transformacje():
             if abs(fpop - f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
-   
+
   #### o tu co z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
-        def dms(x):
-            sig = ''
-            if x < 0:
-                sig = '-'
-                x = abs(x)  
-            x = x * 180/pi
-            d = int(x)
-            m = int((x-d) * 60)
-            s = (x - d - m/60) * 3600
-            return(sig,"%3d %2d %7.5f" %(d,m,s))
+        
         
         if output == "dec_degree":
             return degrees(f), degrees(l), h 
         elif output == "dms":
-            f = dms(f)
-            l = dms(l)
+            f = deg2dms(degrees(f))
+            l = deg2dms(degrees(l))
             return f"{f[0]:02d}:{f[1]:02d}:{f[2]:.2f}", f"{l[0]:02d}:{l[1]:02d}:{l[2]:.2f}", f"{h:.3f}"
         else:
             raise NotImplementedError(f"{output} - jednostka wyjsciowa nie została zdefiniowana")
@@ -119,6 +111,8 @@ class Transformacje():
             [metry]
             
         """
+        f = radians(f)
+        l = radians(l)
         N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)   #promień krzywizny w I wertykale
         Xk = (N + h) * np.cos(f) * np.cos(l)
         Yk = (N + h) * np.cos(f )* np.sin(l)
@@ -149,6 +143,10 @@ class Transformacje():
            [metry]
            
        """
+       
+       f = radians(f)
+       l = radians(l)
+       
        dX = np.array([X, Y, Z])
        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                      [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
@@ -283,8 +281,7 @@ class Transformacje():
         X_1992 = (Xgk * 0.9993) - 5300000
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
-
-
+    
 
 
 if __name__ == "__main__":
@@ -303,11 +300,11 @@ if __name__ == "__main__":
     print(X,Y,Z)
     
     #3
- #   tr3 = Transformacje(elipsoida = "WGS84")
- #  # dane flh
- #  f = 52.0972722; l = 21.0315333279; h = 141.3986623911
- #  f, l, h = tr3.xyz2neu(f,l,h)
- #  print(X,Y,Z)
+    tr3 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    X = 3664940.500; Y = 1409153.590; Z = 5009571.170; f = 52.0972722; l = 21.0315333279
+    n, e, u = tr3. xyz2neu(X, Y, Z, f,l)
+    print(n,e,u)
     
     #4
     tr4 = Transformacje(elipsoida = "WGS84")
@@ -321,7 +318,7 @@ if __name__ == "__main__":
     # dane flh
     f = 52.0972722; l = 21.0315333279
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
-    print(X_1992,Y_1992)
+    print("%11.5f" % X_1992, "%11.5f" % Y_1992)
   
     
   
@@ -337,41 +334,9 @@ if __name__ == "__main__":
 # próbuje tu tą biblioteke arparse czy cos   
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--nazwa_opcji', type=int, help='Opis opcji')
-    parser.add_argument('nazwa_argumentu', type=str, help='Opis argumentu')
+    parser.add_argument('x', type = float, help ='współrzędna x punktu')
+    parser.add_argument('y', type = float, help ='współrzędna y punktu')
+    parser.add_argument('z', type = float, help ='współrzędna z punktu')
     args = parser.parse_args()
-    print(args.nazwa_opcji)
-    print(args.nazwa_argumentu)
-
-    
-    # PRZYKŁADYY !!!
-    #1
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--liczba', type=int, help='Liczba całkowita')
-    parser.add_argument('tekst', type=str, help='Tekst do wyświetlenia')
-    args = parser.parse_args()
-
-    if args.liczba:
-        print(f'Podana liczba to: {args.liczba}')
-    print(f'Podany tekst to: {args.tekst}')
-     
-    #2
-    parser = argparse.ArgumentParser()
-    parser.add_argument('x', type=int, help='współrzędna x punktu')
-    parser.add_argument('y', type=int, help='współrzędna y punktu')
- 
-    args = parser.parse_args()
-
-    print(f'Współrzędne punktu to ({args.x}, {args.y})')
-
-
-    #3
-    def funkcja(x, y):
-        # tutaj umieść kod funkcji, która używa wartości x i y
-
-     parser = argparse.ArgumentParser()
-     parser.add_argument('x', type=int, help='współrzędna x punktu')
-     parser.add_argument('y', type=int, help='współrzędna y punktu')
-     args = parser.parse_args()
-
-     funkcja(args.x, args.y)
+    xyz2flh(args.x, args.y, args.z)  
+    print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
