@@ -332,6 +332,7 @@ if __name__ == "__main__":
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
     
+<<<<<<< HEAD
 
     
     
@@ -343,4 +344,16 @@ if __name__ == "__main__":
     
 
 
+=======
+    
+    
+    
+    
+
+
+
+    
+
+
+>>>>>>> 2b11db6dae198a615a6ffec1b5bfdd8387700332
     
