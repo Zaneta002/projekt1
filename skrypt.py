@@ -386,7 +386,7 @@ def transformacje_plik(X, Y, Z):
             f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
             wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
 
-with open('wsp_in.txt', 'r') as f:
+with open('wsp_inp.txt', 'r') as f:
     next(f)  # pomijamy nagłówek
     X, Y, Z = [], [], []
     for line in f:
