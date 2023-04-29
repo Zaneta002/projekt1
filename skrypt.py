@@ -270,6 +270,34 @@ class Transformacje():
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
 
+  
+'''
+transform = Transformacje()
+parser = argparse.ArgumentParser()
+parser.add_argument('--x', type = float, help ='współrzędna x punktu')
+parser.add_argument('--y', type = float, help ='współrzędna y punktu')
+parser.add_argument('--z', type = float, help ='współrzędna z punktu')
+args = parser.parse_args()
+
+
+if args.x is None:
+    args.x = float(input('Podaj wartość dla x: '))
+if args.y is None:
+    args.y = float(input('Podaj wartość dla y: '))
+if args.z is None:
+    args.z = float(input('Podaj wartość dla z: '))
+    
+    
+mc = Transformacje()
+mc.xyz2flh(args.x, args.y, args.z)
+    
+parser.set_defaults(func=main)
+
+args.func(args)
+
+xyz2flh(args.x, args.y, args.z)  
+print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
+'''
 
 if __name__ == "__main__":
     #1
@@ -306,35 +334,7 @@ if __name__ == "__main__":
     f = 52.0972722; l = 21.0315333279
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print('X_1992 = ' "%11.5f" % X_1992, ' Y_1992 = ' "%11.5f" % Y_1992)
-  
-
-transform = Transformacje()
-parser = argparse.ArgumentParser()
-parser.add_argument('--x', type = float, help ='współrzędna x punktu')
-parser.add_argument('--y', type = float, help ='współrzędna y punktu')
-parser.add_argument('--z', type = float, help ='współrzędna z punktu')
-args = parser.parse_args()
-
-
-if args.x is None:
-    args.x = float(input('Podaj wartość dla x: '))
-if args.y is None:
-    args.y = float(input('Podaj wartość dla y: '))
-if args.z is None:
-    args.z = float(input('Podaj wartość dla z: '))
     
-    
-mc = Transformacje()
-mc.xyz2flh(args.x, args.y, args.z)
-    
-parser.set_defaults(func=main)
-
-args.func(args)
-
-xyz2flh(args.x, args.y, args.z)  
-print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
-
-
 
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
@@ -346,7 +346,7 @@ def transformacje_plik(X, Y, Z):
         for x, y, z in zip(X, Y, Z):
             f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
             wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
-        wyniki.write('Wyniki transformacji współrzędnych ECEF na NEU\n\n')
+        wyniki.write('\nWyniki transformacji współrzędnych ECEF na NEU\n\n')
         wyniki.write('Nazwa elipsoidy: GRS80\n')
         wyniki.write('Metoda transformacji: NEU\n\n')
         wyniki.write('Współrzędne NEU [m]:\nX[m]         Y[m]        Z[m]\n')
@@ -367,3 +367,5 @@ with open('wsp_inp.txt', 'r') as f:
         Y.append(y)
         Z.append(z)
     transformacje_plik(X, Y, Z)
+
+        
