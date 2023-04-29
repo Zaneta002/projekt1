@@ -79,16 +79,33 @@ class Transformacje():
         l = np.arctan2(Y,X)
       
   #### o tu cos z tym trzeba zrobic chyba, zeby przeliczało na stopnie, minuty, sekundy 
-      
+ # tak analogicznie do tego co dał w przykładzie - dodałam funkcje deg2dms i  te self w przeliczaniu stopni na stopnie, minuty i sekundy jak cos
+        def dms(x):
+            sig = ''
+            if x < 0:
+                sig = '-'
+                x = abs(x)  
+            x = x * 180/pi
+            d = int(x)
+            m = int((x-d) * 60)
+            s = (x - d - m/60) * 3600
+            return(sig,"%3d %2d %7.5f" %(d,m,s))
+        def deg2dms(degrees):
+            # przelicza stopnie na stopnie, minuty i sekundy
+            d = int(degrees)
+            m = int((degrees - d) * 60)
+            s = (degrees - d - m/60) * 3600
+            # Zwracamy wynik jako krotkę
+            return (d, m, s)
         if output == "dec_degree":
             return degrees(f), degrees(l), h 
         elif output == "dms":
-            f = deg2dms(degrees(f))
-            l = deg2dms(degrees(l))
+            f = self.deg2dms(degrees(f))
+            l = self.deg2dms(degrees(l))
             return f"{f[0]:02d}:{f[1]:02d}:{f[2]:.2f}", f"{l[0]:02d}:{l[1]:02d}:{l[2]:.2f}", f"{h:.3f}"
         else:
             raise NotImplementedError(f"{output} - jednostka wyjsciowa nie została zdefiniowana")
-    
+              
                     
     
     def flh2xyz(self, f, l, h, output = 'metry'):
@@ -334,29 +351,29 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
-    
-<<<<<<< HEAD
-
-    
-    
-    
-    
 
 
+####========================================================
 
-    
+# funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
+# Nie wiem czy ona działa bo sie nic nie dzieje(nie ma nawet błędu) jak ją wywoluje i nw dlaczego...
+    def przelicz_dane_plik(input_file, output_file):
+        """
+        Funkcja ta przyjmuje dwa argumenty: input_file to nazwa pliku wejściowego, a output_file to nazwa pliku wynikowego. 
+        Funkcja korzysta z obiektu Transformacje utworzonego wcześniej i przelicza współrzędne geocentryczne dla każdej linii z pliku wejściowego.
+        """
+        t = Transformacje()
+        with open(input_file, 'r') as f:
+            lines = f.readlines()
+        with open(output_file, 'w') as f:
+            for line in lines:
+                if line.startswith('#'):
+                    continue
+                x, y, z = [float(x.strip()) for x in line.split(',')]
+                f.write(f"{t.xyz2flh(x, y, z)}\n")
 
+# PRZYKLAD UZYCIA: Po uruchomieniu funkcji przelicz_dane_plik("wsp_inp.txt", "wyniki.txt") zostanie stworzony plik 'wyniki.txt' z wynikami obliczeń dla danych z pliku 'wsp_inp.txt'.
 
-=======
-    
-    
-    
-    
-
-
-
-    
-
-
->>>>>>> 2b11db6dae198a615a6ffec1b5bfdd8387700332
+WYNIKI = przelicz_dane_plik("wsp_inp.txt", "wyniki.txt")
+        
     
