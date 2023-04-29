@@ -343,7 +343,7 @@ if __name__ == "__main__":
 """  
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
-    
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('x', type = float, help ='współrzędna x punktu')
     parser.add_argument('y', type = float, help ='współrzędna y punktu')
@@ -351,6 +351,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
+<<<<<<< HEAD
+=======
+    """
+>>>>>>> 08fc510077c93e3997ef31777e8c77e5da51de64
 
 ####========================================================
 
