@@ -10,6 +10,9 @@ from math import *
 import numpy as np
 import argparse
 
+###### w tym przykładzie to było zdefiniowane jako objekt wiec dodałam ale nw czy git
+o = object()
+
 
 class Transformacje():
     
