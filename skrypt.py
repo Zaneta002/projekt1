@@ -340,7 +340,7 @@ if __name__ == "__main__":
     print("%11.5f" % X_1992, "%11.5f" % Y_1992)
   
     
-    
+"""  
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
     
@@ -352,16 +352,15 @@ if __name__ == "__main__":
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
 
-
 ####========================================================
 
 # funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
 # Nie wiem czy ona działa bo sie nic nie dzieje(nie ma nawet błędu) jak ją wywoluje i nw dlaczego...
     def przelicz_dane_plik(input_file, output_file):
-        """
-        Funkcja ta przyjmuje dwa argumenty: input_file to nazwa pliku wejściowego, a output_file to nazwa pliku wynikowego. 
+        
+#       Funkcja ta przyjmuje dwa argumenty: input_file to nazwa pliku wejściowego, a output_file to nazwa pliku wynikowego. 
         Funkcja korzysta z obiektu Transformacje utworzonego wcześniej i przelicza współrzędne geocentryczne dla każdej linii z pliku wejściowego.
-        """
+        
         t = Transformacje()
         with open(input_file, 'r') as f:
             lines = f.readlines()
@@ -376,4 +375,24 @@ if __name__ == "__main__":
 
 WYNIKI = przelicz_dane_plik("wsp_inp.txt", "wyniki.txt")
         
-    
+"""
+def transformacje_plik(X, Y, Z):
+    trans = Transformacje()
+    with open('wyniki.txt', 'w') as wyniki:
+        wyniki.write('Wyniki transformacji współrzędnych ECEF na geodezyjne\n\n')
+        wyniki.write('Nazwa elipsoidy: GRS80\n')
+        wyniki.write('Metoda transformacji: Algorytm Hirvonena\n\n')
+        wyniki.write('Współrzędne ECEF [m]:\nX[m]         Y[m]        Z[m]\n')
+        for x, y, z in zip(X, Y, Z):
+            f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
+            wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
+
+with open('wsp_in.txt', 'r') as f:
+    next(f)  # pomijamy nagłówek
+    X, Y, Z = [], [], []
+    for line in f:
+        x, y, z = map(float, line.strip().split(','))
+        X.append(x)
+        Y.append(y)
+        Z.append(z)
+    transformacje_plik(X, Y, Z)
