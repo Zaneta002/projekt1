@@ -339,10 +339,16 @@ if __name__ == "__main__":
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print("%11.5f" % X_1992, "%11.5f" % Y_1992)
   
+<<<<<<< HEAD
     
 """  
  #===============================================
 # próbuje tu tą biblioteke arparse czy cos   
+=======
+    """
+# próbuje tu tą biblioteke arparse czy cos   
+    
+>>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
     parser = argparse.ArgumentParser()
     parser.add_argument('x', type = float, help ='współrzędna x punktu')
     parser.add_argument('y', type = float, help ='współrzędna y punktu')
@@ -350,12 +356,41 @@ if __name__ == "__main__":
     args = parser.parse_args()
     xyz2flh(args.x, args.y, args.z)  
     print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
+<<<<<<< HEAD
 """
 
+=======
+    """
+    
+>>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
 ####========================================================
-
+"""
 # funkcja na transformowanie danych z pliku(on tam dał w przykładzie taki plik - wsp_inp, wiec tego chyba uzyje)
+<<<<<<< HEAD
 
+=======
+# Nie wiem czy ona działa bo sie nic nie dzieje(nie ma nawet błędu) jak ją wywoluje i nw dlaczego...
+    def przelicz_dane_plik(input_file, output_file):
+        
+#       Funkcja ta przyjmuje dwa argumenty: input_file to nazwa pliku wejściowego, a output_file to nazwa pliku wynikowego. 
+#       Funkcja korzysta z obiektu Transformacje utworzonego wcześniej i przelicza współrzędne geocentryczne dla każdej linii z pliku wejściowego.
+        
+        t = Transformacje()
+        with open(input_file, 'r') as f:
+            lines = f.readlines()
+        with open(output_file, 'w') as f:
+            for line in lines:
+                if line.startswith('#'):
+                    continue
+                x, y, z = [float(x.strip()) for x in line.split(',')]
+                f.write(f"{t.xyz2flh(x, y, z)}\n")
+
+# PRZYKLAD UZYCIA: Po uruchomieniu funkcji przelicz_dane_plik("wsp_inp.txt", "wyniki.txt") zostanie stworzony plik 'wyniki.txt' z wynikami obliczeń dla danych z pliku 'wsp_inp.txt'.
+
+WYNIKI = przelicz_dane_plik("wsp_inp.txt", "wyniki.txt")
+"""        
+
+>>>>>>> ddbc8dd4cf2291c9e0fccd8db1e46f90bec30ad5
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
     with open('wyniki.txt', 'w') as wyniki:
