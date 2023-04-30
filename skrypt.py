@@ -144,23 +144,22 @@ class Transformacje():
     
     def xyz2neu(self, X, Y, Z, f, l):
        """
-       Funkcja odwrotna do algorytmu Hirvonena. Przelicza współrzędne geodezyjne (phi, lambda, h) na 
-       współrzędne ortokartezjańskie (XYZ).
+       Funkcja przelicza współrzędne kartezjańskie XYZ na współrzędne w układzie NEU (topocentryczne northing, easting, up).
        Dane:
        ----------
-       f, l, h : FLOAT
+       X, Y, Z, f, l : FLOAT
             współrzędne w układzie geodezyjnym
 
        Zwraca:
        -------
-       X : TYPE
+       s : TYPE
            [metry]
      
-       Y : TYPE
-           [metry]
+       alfa : TYPE
+           []
            
-       Z: TYPE
-           [metry]
+       z: TYPE
+           []
            
        """
        
@@ -286,34 +285,6 @@ class Transformacje():
         Y_1992 = (Ygk * 0.9993) + 500000
         return(X_1992, Y_1992)
 
-  
-'''
-transform = Transformacje()
-parser = argparse.ArgumentParser()
-parser.add_argument('--x', type = float, help ='współrzędna x punktu')
-parser.add_argument('--y', type = float, help ='współrzędna y punktu')
-parser.add_argument('--z', type = float, help ='współrzędna z punktu')
-args = parser.parse_args()
-
-
-if args.x is None:
-    args.x = float(input('Podaj wartość dla x: '))
-if args.y is None:
-    args.y = float(input('Podaj wartość dla y: '))
-if args.z is None:
-    args.z = float(input('Podaj wartość dla z: '))
-    
-    
-mc = Transformacje()
-mc.xyz2flh(args.x, args.y, args.z)
-    
-parser.set_defaults(func=main)
-
-args.func(args)
-
-xyz2flh(args.x, args.y, args.z)  
-print(f'Uzyskane współrzędne punktu to ({args.x}, {args.y}, {args.z})')
-'''
 
 if __name__ == "__main__":
     #1
