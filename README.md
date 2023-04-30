@@ -7,8 +7,17 @@ Umożliwia:
 * zamianę współrzędnych geodezyjnych (fi,lambda) na współrzędne w układzie 1992.
 
 Program obsługuje elipsoidy GRS80, WGS84 oraz elipsoidę Krasowskiego. 
-Aby program poprawnie działał należy mieć na danym komputerze zainstalowaną aplikację Python w wersji Python 3.10.10 
-oraz aplikację Spyder, a także zainstalowane biblioteki - NumPy, Math oraz Argparse.
-Program został napisany dla systemu operacyjnego Microsoft Windows.
+Aby program poprawnie działał należy mieć na danym komputerze zainstalowaną aplikację Python w wersji 3.10.10, 
+a także zainstalowane biblioteki - NumPy, Math oraz Argparse.
+Skrypt został napisany przy użyciu środowiska programistycznego Spyder w systemie operacyjnym Microsoft Windows 10.
+
+Program można uruchomić przy pomocy Wiersza poleceń, co jest możliwe dzięki zastosowaniu biblioteki Argparse.
+Wówczas przekazujemy jako argumenty wartości współrzędnych do przeliczenia oraz parametry elipsoidy. 
+Opcjonalnie możemy określić jednostkę wyjściową przez podanie wartości opcji '--output'.
+Przykładowe polecenie, które uruchomi program wygląda następująco:
+"python skrypt.py --elipsoida WGS84 --X 54623.34524 --Y 64697.89021 --Z 12523.45236 --output dec_degree"
+
+
+
 
 
