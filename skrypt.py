@@ -38,7 +38,7 @@ class Transformacje():
         self.e2 = (2 * self.flat - self.flat ** 2)
             
 # przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree     
-# Mozesz sobie to sprawdzic bo nw czy to tak ma wygladać    
+    
 
     parser = argparse.ArgumentParser(description='Opis programu')
     parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
@@ -50,7 +50,7 @@ class Transformacje():
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
 
-# Tutaj umieść kod wykorzystujący argumenty
+# Tutaj kod wykorzystujący argumenty
 
 
     def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
@@ -320,7 +320,7 @@ if __name__ == "__main__":
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print('X_1992 = ' "%11.5f" % X_1992, ' Y_1992 = ' "%11.5f" % Y_1992)
     
-
+#przykład wczytywania danych z pliku i tworzenie pliku wynikowego
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
     with open('wyniki.txt', 'w') as wyniki:
