@@ -37,8 +37,6 @@ class Transformacje():
         self.e = np.sqrt(2 * self.flat - self.flat ** 2)
         self.e2 = (2 * self.flat - self.flat ** 2)
             
-#####---ZANETA---tu cos probowalam z tym argparse, ogolnie to zrozumialam ze tego sie nie odpala tutaj tylko
-# w wierszu poleceń(i tam powinno to zadziałac teoretycznie) za pomocą np. takiego kodu:
 # przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree     
 # Mozesz sobie to sprawdzic bo nw czy to tak ma wygladać    
 
@@ -51,7 +49,7 @@ class Transformacje():
     parser.add_argument('--output', type=str, default='dec_degree', choices=['dec_degree', 'dms'],
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
- 
+
 # Tutaj umieść kod wykorzystujący argumenty
 
 
@@ -76,7 +74,7 @@ class Transformacje():
         h : TYPE
             [metry] - wysokość elipsoidalna
             
-        output [STR] - opcjonalne, domyślne 
+        output [STR] - opcjonalne
             dec_degree - stopnie dziesiętne
             dms - stopnie, minuty sekundy
         
@@ -139,12 +137,10 @@ class Transformacje():
         Zk = (N * (1 - self.e2) +h) * np.sin(f)
         return(Xk, Yk, Zk)
  
-        
-# XYZ2neu to nie wiem czy git jest   
     
     def xyz2neu(self, X, Y, Z, f, l):
        """
-       Funkcja przelicza współrzędne kartezjańskie XYZ na współrzędne w układzie NEU (topocentryczne northing, easting, up).
+       Funkcja przelicza współrzędne kartezjańskie (XYZ) na współrzędne w układzie NEU (topocentryczne northing, easting, up).
        Dane:
        ----------
        X, Y, Z, f, l : FLOAT
@@ -156,10 +152,10 @@ class Transformacje():
            [metry]
      
        alfa : TYPE
-           []
+           [stopnie dziesiętne]
            
        z: TYPE
-           []
+           [stopnie dziesiętne]
            
        """
        
@@ -174,6 +170,8 @@ class Transformacje():
        s = np.sqrt(dneu @ dneu)
        alfa = np.arctan2(dneu[1], dneu[0])
        z = np.arccos(dneu[2]/s)
+       alfa = degrees(alfa)
+       z = degrees(z)
        return (s, alfa, z)
     
 
