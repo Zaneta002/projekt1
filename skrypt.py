@@ -37,8 +37,10 @@ class Transformacje():
         self.e = np.sqrt(2 * self.flat - self.flat ** 2)
         self.e2 = (2 * self.flat - self.flat ** 2)
             
-        
-    
+#####---ZANETA---tu cos probowalam z tym argparse, ogolnie to zrozumialam ze tego sie nie odpala tutaj tylko
+# w wierszu poleceń(i tam powinno to zadziałac teoretycznie) za pomocą np. takiego kodu:
+# przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree     
+# Mozesz sobie to sprawdzic bo nw czy to tak ma wygladać    
 
     parser = argparse.ArgumentParser(description='Opis programu')
     parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
@@ -49,7 +51,7 @@ class Transformacje():
     parser.add_argument('--output', type=str, default='dec_degree', choices=['dec_degree', 'dms'],
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
-# przykład korzystania z arg -- python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree 
+ 
 # Tutaj umieść kod wykorzystujący argumenty
 
 
