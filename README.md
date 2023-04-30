@@ -17,7 +17,7 @@ Opcjonalnie możemy określić jednostkę wyjściową przez podanie wartości op
 Przykładowe polecenie, które uruchomi program wygląda następująco:
 "python skrypt.py --elipsoida WGS84 --X 54623.34524 --Y 64697.89021 --Z 12523.45236 --output dec_degree".
 
-Możliwe jest również użycie skryptu dla transformacji wielu współrzędnych jednocześnie. Wówczas argumentem wejściowym jest plik z zestawem danych do transformacji, a wynikiem działania programu jest plik z przetransformowanymi współrzędnymi. 
+Możliwe jest również użycie skryptu dla transformacji wielu współrzędnych jednocześnie. Wówczas argumentem wejściowym może być plik z zestawem danych do transformacji, a wynikiem działania programu jest plik z przetransformowanymi współrzędnymi. 
 Przykład takiego użycia przedstawiony jest poniżej:
 
 Plik wejściowy:
