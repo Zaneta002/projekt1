@@ -21,8 +21,10 @@ Możliwe jest również użycie skryptu dla transformacji wielu współrzędnych
 Przykład takiego użycia przedstawiony jest poniżej:
 
 Plik wejściowy:
+
 Współrzedne geocentryczny ECEF stacji pemanentnej GNSS
 Obserwatorium Astronomiczno-Geodezyjne w Józefosławiu
+
   X[m]         Y[m]        Z[m]
 # -----------------------------------------------------
 3664940.500,1409153.590,5009571.170
@@ -39,7 +41,7 @@ Obserwatorium Astronomiczno-Geodezyjne w Józefosławiu
 3664940.513,1409153.584,5009571.171
 
 Plik wyjściowyy:
-yniki transformacji współrzędnych ECEF na geodezyjne
+Wyniki transformacji współrzędnych ECEF na geodezyjne
 
 Nazwa elipsoidy: GRS80
 Metoda transformacji: Algorytm Hirvonena
