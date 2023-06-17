@@ -73,6 +73,7 @@ X[m]         Y[m]        Z[m]
 Transformacje:
 * Krasowski -> 2000
 * Krasowski -> 1992
+  
 dają błedne rezultaty i nie powinny być używane.
 
 
