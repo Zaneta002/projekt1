@@ -38,7 +38,12 @@ class Transformacje():
         self.e = np.sqrt(2 * self.flat - self.flat ** 2)
         self.e2 = (2 * self.flat - self.flat ** 2)
             
+<<<<<<< HEAD
 # przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree       
+=======
+# przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree     
+    
+>>>>>>> 98c10fc4f4607f61f31be08003a45ee4be7245aa
 
     parser = argparse.ArgumentParser(description='Opis programu')
     parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
@@ -54,7 +59,7 @@ class Transformacje():
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
 
-# Tutaj umieść kod wykorzystujący argumenty
+# Tutaj kod wykorzystujący argumenty
 
     def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
         """
@@ -288,6 +293,7 @@ class Transformacje():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     def transformacje_plik(X, Y, Z, elipsoida):
         trans = Transformacje(elipsoida=elipsoida)
         with open('wsp_inp.txt', 'w') as wyniki:
@@ -328,6 +334,61 @@ if __name__ == "__main__":
         tr1 = Transformacje(Transformacje.args.elipsoida)
         f, l, h = tr1.xyz2flh(Transformacje.args.X, Transformacje.args.Y, Transformacje.args.Z)
         print('f = '"%7.5f" % f, ' l = ' "%7.5f" % l, ' h = '"%7.5f" % h)
+=======
+    #1
+    tr1 = Transformacje(elipsoida = "WGS84")
+    # dane XYZ geocentryczne
+    X = 3664940.500; Y = 1409153.590; Z = 5009571.170
+    f, l, h = tr1.xyz2flh(X, Y, Z)
+    print('f = '"%7.5f" % f, ' l = ' "%7.5f" % l, ' h = '"%7.5f" % h)
+     
+    #2
+    tr2 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279; h = 141.3986623911
+    X, Y, Z = tr2.flh2xyz(f,l,h)
+    print('X = '"%11.5f" % X, ' Y =' "%11.5f" % Y,' Z = ' "%11.5f" % Z)
+    
+    #3
+    tr3 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    X = 3664940.500; Y = 1409153.590; Z = 5009571.170; f = 52.0972722; l = 21.0315333279
+    n, e, u = tr3. xyz2neu(X, Y, Z, f,l)
+    print(n,e,u)
+    
+    #4
+    tr4 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279
+    X_2000,Y_2000 = tr4.fl_to_uk2000(f,l)
+    print('X_2000 = ' "%11.5f" % X_2000, 'Y_2000 = ' "%11.5f" % Y_2000)
+    
+    #5
+    tr5 = Transformacje(elipsoida = "WGS84")
+    # dane flh
+    f = 52.0972722; l = 21.0315333279
+    X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
+    print('X_1992 = ' "%11.5f" % X_1992, ' Y_1992 = ' "%11.5f" % Y_1992)
+    
+#przykład wczytywania danych z pliku i tworzenie pliku wynikowego
+def transformacje_plik(X, Y, Z):
+    trans = Transformacje()
+    with open('wyniki.txt', 'w') as wyniki:
+        wyniki.write('Wyniki transformacji współrzędnych ECEF na geodezyjne\n\n')
+        wyniki.write('Nazwa elipsoidy: GRS80\n')
+        wyniki.write('Metoda transformacji: Algorytm Hirvonena\n\n')
+        wyniki.write('Współrzędne ECEF [m]:\nX[m]         Y[m]        Z[m]\n')
+        for x, y, z in zip(X, Y, Z):
+            f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
+            wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
+        wyniki.write('\nWyniki transformacji współrzędnych ECEF na NEU\n\n')
+        wyniki.write('Nazwa elipsoidy: GRS80\n')
+        wyniki.write('Metoda transformacji: NEU\n\n')
+        wyniki.write('Współrzędne NEU [m]:\nX[m]         Y[m]        Z[m]\n')
+        for x, y, z in zip(X, Y, Z):
+            s, alfa, z = trans.xyz2neu(x, y, z, f, l)
+            wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {s:.10f}, {alfa:.10f}, {z:.3f}\n')
+>>>>>>> 98c10fc4f4607f61f31be08003a45ee4be7245aa
         
     elif Transformacje.args.F is not None and Transformacje.args.L is not None and Transformacje.args.H is not None:
         tr2 = Transformacje(Transformacje.args.elipsoida)
