@@ -43,9 +43,13 @@ class Transformacje():
     parser = argparse.ArgumentParser(description='Opis programu')
     parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
                         help='nazwa elipsoidy (wybierz spośród GRS80, WGS84 lub Krasowskiego)')
-    parser.add_argument('--X', type=float, required=True, help='współrzędna X')
-    parser.add_argument('--Y', type=float, required=True, help='współrzędna Y')
-    parser.add_argument('--Z', type=float, required=True, help='współrzędna Z')
+    parser.add_argument('--X', type=float,  help='współrzędna X')
+    parser.add_argument('--Y', type=float,  help='współrzędna Y')
+    parser.add_argument('--Z', type=float,  help='współrzędna Z')
+    parser.add_argument('--F', type=float, help='szerokość geodezyjna f (phi)')
+    parser.add_argument('--L', type=float, help='długośc geodezyjna l (lambda)')
+    parser.add_argument('--H', type=float, help='wysokość elipsoidalna h')
+    parser.add_argument('--file', type=str, help='ścieżka do pliku z koordynatami')
     parser.add_argument('--output', type=str, default='dec_degree', choices=['dec_degree', 'dms'],
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
