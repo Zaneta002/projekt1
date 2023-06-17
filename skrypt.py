@@ -38,28 +38,20 @@ class Transformacje():
         self.e = np.sqrt(2 * self.flat - self.flat ** 2)
         self.e2 = (2 * self.flat - self.flat ** 2)
             
-<<<<<<< HEAD
 # przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree       
-=======
-# przykład korzystania z arg: python skrypt.py --elipsoida GRS80 --X 12.345 --Y 67.890 --Z 123.456 --output dec_degree     
-    
->>>>>>> 98c10fc4f4607f61f31be08003a45ee4be7245aa
 
     parser = argparse.ArgumentParser(description='Opis programu')
     parser.add_argument('--elipsoida', type=str, default='GRS80', choices=['GRS80', 'WGS84', 'Krasowskiego'],
                         help='nazwa elipsoidy (wybierz spośród GRS80, WGS84 lub Krasowskiego)')
-    parser.add_argument('--X', type=float,  help='współrzędna X')
-    parser.add_argument('--Y', type=float,  help='współrzędna Y')
-    parser.add_argument('--Z', type=float,  help='współrzędna Z')
-    parser.add_argument('--F', type=float, help='szerokość geodezyjna f (phi)')
-    parser.add_argument('--L', type=float, help='długośc geodezyjna l (lambda)')
-    parser.add_argument('--H', type=float, help='wysokość elipsoidalna h')
-    parser.add_argument('--file', type=str, help='ścieżka do pliku z koordynatami')
+    parser.add_argument('--X', type=float, required=True, help='współrzędna X')
+    parser.add_argument('--Y', type=float, required=True, help='współrzędna Y')
+    parser.add_argument('--Z', type=float, required=True, help='współrzędna Z')
     parser.add_argument('--output', type=str, default='dec_degree', choices=['dec_degree', 'dms'],
                         help='jednostka wyjściowa (wybierz spośród dec_degree lub dms)')
     args = parser.parse_args()
 
-# Tutaj kod wykorzystujący argumenty
+# Tutaj umieść kod wykorzystujący argumenty
+
 
     def xyz2flh(self, X, Y, Z, output = 'dec_degree'):
         """
@@ -293,48 +285,6 @@ class Transformacje():
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    def transformacje_plik(X, Y, Z, elipsoida):
-        trans = Transformacje(elipsoida=elipsoida)
-        with open('wsp_inp.txt', 'w') as wyniki:
-            wyniki.write('Wyniki transformacji współrzędnych ECEF na geodezyjne\n\n')
-            wyniki.write('Nazwa elipsoidy: GRS80\n')
-            wyniki.write('Metoda transformacji: Algorytm Hirvonena\n\n')
-            wyniki.write('Współrzędne ECEF [m]:\nX[m]         Y[m]        Z[m]\n')
-            for x, y, z in zip(X, Y, Z):
-                f, l, h = trans.xyz2flh(x, y, z, output='dec_degree')
-                wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {f:.10f}, {l:.10f}, {h:.3f}\n')
-            wyniki.write('\nWyniki transformacji współrzędnych ECEF na NEU\n\n')
-            wyniki.write('Nazwa elipsoidy: GRS80\n')
-            wyniki.write('Metoda transformacji: NEU\n\n')
-            wyniki.write('Współrzędne NEU [m]:\nX[m]         Y[m]        Z[m]\n')
-            for x, y, z in zip(X, Y, Z):
-                s, alfa, z = trans.xyz2neu(x, y, z, f, l)
-                wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {s:.10f}, {alfa:.10f}, {z:.3f}\n')
-
-    if Transformacje.args.file:
-        if os.path.exists(Transformacje.args.file):
-            with open(Transformacje.args.file) as f:
-                next(f)
-                next(f)
-                next(f)
-                next(f)
-                X, Y, Z = [], [], []
-                for line in f:
-                    x, y, z = map(float, line.strip().split(','))
-                    X.append(x)
-                    Y.append(y)
-                    Z.append(z)
-                transformacje_plik(X, Y, Z, Transformacje.args.elipsoida)
-                print('Efekt działania programu został umieszczony w pliku wyniki.txt')
-        else:
-            print('Nie mogę odnaleźć pliku', Transformacje.args.file)
-
-    elif Transformacje.args.X is not None and Transformacje.args.Y is not None and Transformacje.args.Z is not None:
-        tr1 = Transformacje(Transformacje.args.elipsoida)
-        f, l, h = tr1.xyz2flh(Transformacje.args.X, Transformacje.args.Y, Transformacje.args.Z)
-        print('f = '"%7.5f" % f, ' l = ' "%7.5f" % l, ' h = '"%7.5f" % h)
-=======
     #1
     tr1 = Transformacje(elipsoida = "WGS84")
     # dane XYZ geocentryczne
@@ -370,7 +320,7 @@ if __name__ == "__main__":
     X_1992,Y_1992 = tr5.fl_to_uk1992(f,l)
     print('X_1992 = ' "%11.5f" % X_1992, ' Y_1992 = ' "%11.5f" % Y_1992)
     
-#przykład wczytywania danych z pliku i tworzenie pliku wynikowego
+
 def transformacje_plik(X, Y, Z):
     trans = Transformacje()
     with open('wyniki.txt', 'w') as wyniki:
@@ -388,30 +338,19 @@ def transformacje_plik(X, Y, Z):
         for x, y, z in zip(X, Y, Z):
             s, alfa, z = trans.xyz2neu(x, y, z, f, l)
             wyniki.write(f'{x:.3f}, {y:.3f}, {z:.3f} -> {s:.10f}, {alfa:.10f}, {z:.3f}\n')
->>>>>>> 98c10fc4f4607f61f31be08003a45ee4be7245aa
         
-    elif Transformacje.args.F is not None and Transformacje.args.L is not None and Transformacje.args.H is not None:
-        tr2 = Transformacje(Transformacje.args.elipsoida)
-        X, Y, Z = tr2.flh2xyz(Transformacje.args.F, Transformacje.args.L, Transformacje.args.H)
-        print('X = '"%11.5f" % X, ' Y =' "%11.5f" % Y,' Z = ' "%11.5f" % Z)
-        
-    elif Transformacje.args.X is not None and Transformacje.args.Y is not None and Transformacje.args.Z is not None:# and Transformacje.args.F is not None and Transformacje.args.L is not None:
-        tr3 = Transformacje(Transformacje.args.elipsoida)
-        s, alfa, z = tr3.xyz2neu(Transformacje.args.X, Transformacje.args.Y, Transformacje.args.Z, Transformacje.args.F, Transformacje.args.L)
-        print('s = '"%11.5f" % s, ' alfa =' "%11.5f" % alfa,' z = ' "%11.5f" % z)
-        
-    elif Transformacje.args.F is not None and Transformacje.args.L is not None:
-        tr4 = Transformacje(Transformacje.args.elipsoida)
-        X, Y = tr4.fl_to_uk2000(Transformacje.args.F, Transformacje.args.L)
-        print('X = '"%11.5f" % X, ' Y =' "%11.5f" % Y)
-    
-    elif Transformacje.args.F is not None and Transformacje.args.L is not None:
-        tr5 = Transformacje(Transformacje.args.elipsoida)
-        X, Y = tr5.fl_to_uk1992(Transformacje.args.F, Transformacje.args.L)
-        print('X = '"%11.5f" % X, ' Y =' "%11.5f" % Y)
-        
-    else:
-        print('Nieprawidłowe parametry')
-        print('Aplikacja nie będzie działać')
+
+with open('wsp_inp.txt', 'r') as f:
+    next(f)  
+    next(f)
+    next(f)
+    next(f)
+    X, Y, Z = [], [], []
+    for line in f:
+        x, y, z = map(float, line.strip().split(','))
+        X.append(x)
+        Y.append(y)
+        Z.append(z)
+    transformacje_plik(X, Y, Z)
 
        
