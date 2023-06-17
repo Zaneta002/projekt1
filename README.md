@@ -71,8 +71,8 @@ X[m]         Y[m]        Z[m]
 
 # Znane błędy, które nie zostały jeszcze naprawione
 Transformacje:
-* Krasowski (fi,lambda) -> (XY) 2000
-* Krasowski (fi,lambda) -> (XY) 1992
+* BL (Krasowski) -> XY 2000
+* BL (Krasowski) -> XY 1992
   
 dają błedne rezultaty i nie powinny być używane.
 
