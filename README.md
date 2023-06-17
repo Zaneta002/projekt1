@@ -1,4 +1,4 @@
-# Funkcjonalności programu
+## Funkcjonalności programu
 Program służy do transformacji współrzędnych między poszczególnymi układami.
 Umożliwia:
 * zamianę współrzędnych ortokartezjańskich (X,Y,Z) na współrzędne geodezyjne (fi,lambda,h), 
@@ -9,14 +9,14 @@ Umożliwia:
   
 Program obsługuje elipsoidy GRS80, WGS84 oraz elipsoidę Krasowskiego.
 
-# System operacyjny i programy
+## System operacyjny i programy
 Program został napisany dla systemu operacyjnego Microsoft Windows 10 w języku programowania Python w środowisku programistycznym Spyder.
 
-# Wymagania techniczne 
+## Wymagania techniczne 
 Aby program poprawnie działał należy mieć na danym komputerze zainstalowaną aplikację Python w wersji 3.10.10, 
 a także zainstalowane biblioteki - NumPy, Math oraz Argparse.
 
-# Działanie programu
+## Działanie programu
 Program można uruchomić przy pomocy Wiersza poleceń, co jest możliwe dzięki zastosowaniu biblioteki Argparse.
 Wówczas przekazujemy jako argumenty wartości współrzędnych do przeliczenia oraz parametry elipsoidy. 
 Opcjonalnie możemy określić jednostkę wyjściową przez podanie wartości opcji '--output'.
@@ -69,7 +69,7 @@ X[m]         Y[m]        Z[m]
 3664940.515, 1409153.595, 5009571.169 -> 52.0972721009, 21.0315333223, 141.408
 3664940.513, 1409153.584, 5009571.171 -> 52.0972721532, 21.0315331830, 141.406
 
-# Znane błędy, które nie zostały jeszcze naprawione
+## Znane błędy, które nie zostały jeszcze naprawione
 Transformacje:
 * BL (Krasowski) -> XY 2000
 * BL (Krasowski) -> XY 1992
