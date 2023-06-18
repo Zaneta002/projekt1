@@ -21,12 +21,13 @@ Program można uruchomić przy pomocy Wiersza poleceń, co jest możliwe dzięki
 Wówczas przekazujemy jako argumenty wartości współrzędnych do przeliczenia oraz parametry elipsoidy. 
 Opcjonalnie możemy określić jednostkę wyjściową przez podanie wartości opcji '--output'.
 Przykładowe polecenie, które uruchomi program wygląda następująco:
+
 "python skrypt.py --elipsoida WGS84 --X 54623.34524 --Y 64697.89021 --Z 12523.45236 --output dec_degree".
 
 ## Sposób przekazania danych
 W celu zaimportowania danych do programu, należy wpisać poszczególne wartości współrzędnych w wierszu poleceń z odpowiednim wywołaniem skryptu.
 Współrzędne należy wpisywać w metrach (w przypadku transformacji XYZ -> BLH), stopniach dziesiętnych (w przypadku transformacji: BLH -> XYZ, 
-BL -> 2000, BL -> 1992) oraz w metrach (XYZ) i stopniach dziesiętnych (BL) w przypadku transformacji XYZ -> neu.
+BL -> 2000, BL -> 1992) oraz w metrach (XYZ) i stopniach dziesiętnych (BL) w przypadku transformacji XYZ -> neu. Część dzisiętną liczby odzielamy za pomocą kropki "." .
 
 ## Znane błędy, które nie zostały jeszcze naprawione
 Transformacje:
